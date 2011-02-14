@@ -1,0 +1,22 @@
+# encoding: utf-8
+
+DC = ENV['DC'] || 'ldc'
+
+task :default => :build
+
+rule '.o' => [ '.d' ] do |t|
+  sh "#{DC} #{t.source} -I=../dokyo -I=../dokyo/capi -c -of=#{t.name}"
+end
+
+task :build => [ 'dokyo_tch.o' ] do |t|
+  prerequisites = t.prerequisites.join(' ')
+  sh "#{DC} #{prerequisites} -L-ltokyocabinet -of=dokyo_tch"
+end
+
+task :clean do
+  cleaner = proc { |path| rm_f(path) }
+
+  Dir.glob('**/*.~*', &cleaner)
+  Dir.glob('**/*.o', &cleaner)
+  Dir.glob('dokyo_tch', &cleaner)
+end
