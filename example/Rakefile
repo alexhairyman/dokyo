@@ -5,7 +5,7 @@ DC = ENV['DC'] || 'ldc'
 task :default => :build
 
 rule '.o' => [ '.d' ] do |t|
-  sh "#{DC} #{t.source} -I=../dokyo -I=../dokyo/capi -c -of=#{t.name}"
+  sh "#{DC} #{t.source} -I=.. -c -of=#{t.name}"
 end
 
 task :build => [ 'dokyo_tch.o' ] do |t|
