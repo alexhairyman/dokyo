@@ -3,6 +3,18 @@ module dokyo.HashDatabase;
 private import dokyo.capi.tchdb;
 private import tango.stdc.stringz;
 
+/**
+  * Object-Oriented Wrapper for Tokyo Cabinet
+  * Hash Database API.
+  *
+  * Unstable, undocumented, untested, but useful.
+  *
+  * TODO:
+  *   1) foreach support
+  *   2) exceptions instead of crappy ecode returns
+  *   3) more container methods like HashMap
+  *   4) code documentation
+  */
 class HashDatabase
 {
     /* Tokyo Cabinet Hash Database */
