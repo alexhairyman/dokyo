@@ -30,19 +30,19 @@ module tcutil;
 
 
 //C     #include <stdlib.h>
-import std.c.stdlib;
+public import tango.stdc.stdlib;
 //C     #if ! defined(__cplusplus)
 //C     #include <stdbool.h>
-import std.c.stdbool;
+//import std.c.stdbool;
 //C     #endif
 //C     #include <stdint.h>
-import std.c.stdint;
+public import tango.stdc.stdint;
 //C     #include <time.h>
-import std.c.time;
+public import tango.stdc.time;
 //C     #include <limits.h>
-import std.c.limits;
+public import tango.stdc.limits;
 //C     #include <math.h>
-import std.c.math;
+public import tango.stdc.math;
 
 
 
@@ -4143,7 +4143,7 @@ alias ubyte TCBITMAP;
 
 
 //C     #include <stdio.h>
-import std.c.stdio;
+public import tango.stdc.stdio;
 
 //C     #define _TC_VERSION    "1.4.46"
 //C     #define _TC_LIBVER     909
@@ -4525,7 +4525,7 @@ alias _N19 tcgeneric_t;
 //C     #define TCPTRLISTTRUNC(TC_ptrlist, TC_num)   do {     (TC_ptrlist)->num = (TC_num);   } while(false)
 
 
-/* tricks for backward compatibility */
+/* tricks for backward compatibility
 //C     #define BDBCMP            TCCMP
 //C     #define tcbdbrange3       tcbdbfwmkeys2
 alias TCCMP BDBCMP;
@@ -4541,7 +4541,7 @@ alias tccmpint32 tcbdbcmpint32;
 alias tccmpint64 tcbdbcmpint64;
 //C     #define tctdbqrysetmax(TC_tdb, TC_max)   tctdbqrysetlimit((TC_tdb), (TC_max), 0)
 alias tctdbqrysearchout tctdbqryprocout;
-
+*/
 
 
 //C     __TCUTIL_CLINKAGEEND

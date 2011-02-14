@@ -30,8 +30,7 @@ module tchdb;
 
 
 //C     #include <tcutil.h>
-import std.c.tcutil;
-
+import tcutil;
 
 
 /*************************************************************************************************
@@ -139,7 +138,7 @@ struct _N20
     uint64_t xfsiz;
     uint32_t *ba32;
     uint64_t *ba64;
-    uint32_t align;
+    uint32_t _align;
     uint32_t runit;
     bool zmode;
     int32_t fbpmax;
