@@ -3,7 +3,7 @@
 DC = ENV['DC'] || 'ldc'
 
 DOKYO_API = Dir.glob('../dokyo/*.d').map do |path|
-  path.gsub(/\.d$/, '.o').tap { |a| p a }
+  path.gsub(/\.d$/, '.o')
 end
 
 EXAMPLES = [
