@@ -2,7 +2,7 @@ module dokyo.HashDatabase;
 
 private import tango.stdc.stringz;
 private import tango.core.Exception :
-    PlatformException, NoSuchElementException;
+    PlatformException;
 
 private import dokyo.capi.tchdb;
 private import dokyo.capi.tcutil;
