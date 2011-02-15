@@ -112,7 +112,27 @@ class HashDatabase
     }
 
     /**
-      * Remove anything from database.
+      * Remove record by specified key. Always returns
+      * true. When error occurs, throws
+      * PlatformException.
+      */
+    final bool remove(char[] key)
+    {
+        char *zkey = toStringz(key);
+        bool success = tchdbout2(hdb, zkey);
+        delete zkey;
+
+        if (!success)
+        {
+            int ecode = tchdbecode(hdb);
+            throw new PlatformException(getError(ecode));
+        }
+
+        return true;
+    }
+
+    /**
+      * Remove everything from database.
       */
     final HashDatabase clear()
     {
