@@ -2,30 +2,35 @@
 
 DC = ENV['DC'] || 'ldc'
 
-task :default => :build
+DOKYO_API = Dir.glob('../dokyo/*.d').map do |path|
+  path.gsub(/\.d$/, '.o').tap { |a| p a }
+end
+
+EXAMPLES = [
+  'HashDatabaseExample'
+]
 
 rule '.o' => [ '.d' ] do |t|
   sh "#{DC} #{t.source} -I=.. -I=../dokyo -c -of=#{t.name}"
 end
 
-task :build_tch => [ 'dokyo_tch.o' ] do |t|
-  prerequisites = t.prerequisites.join(' ')
-  sh "#{DC} #{prerequisites} -L-ltokyocabinet -of=dokyo_tch"
+EXAMPLES.each do |example|
+  deps = DOKYO_API + [ "#{example}.o" ]
+  desc "Build '#{example}' Demo"
+  task({example => deps}) do |t|
+    prerequisites = t.prerequisites.join(' ')
+    sh "#{DC} #{prerequisites} -L-ltokyocabinet -of=#{example}"
+  end
 end
 
-task :build_oop_tch => [ 'dokyo_oop_tch.o',
-                         '../dokyo/HashDatabase.o' ] do |t|
-  prerequisites = t.prerequisites.join(' ')
-  sh "#{DC} #{prerequisites} -L-ltokyocabinet -of=dokyo_oop_tch"
-end
+desc 'Build all Demos'
+task :all => EXAMPLES
 
-task :build => [ 'build_tch', 'build_oop_tch' ]
-
+desc 'Cleanup'
 task :clean do
-  cleaner = proc { |path| rm_f(path) }
-
-  Dir.glob('**/*.~*', &cleaner)
-  Dir.glob('**/*.o', &cleaner)
-  Dir.glob('dokyo_tch', &cleaner)
-  Dir.glob('dokyo_oop_tch', &cleaner)
+  [ '**/*.~*', '**/*.o', *EXAMPLES, *DOKYO_API ].each do |mask|
+    Dir.glob(mask) { |path| rm_f(path) }
+  end
 end
+
+task :default => :all

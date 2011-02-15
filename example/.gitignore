@@ -1,5 +1,3 @@
 *.o
-dokyo_tch
-dokyo_oop_tch
-*.hdb
 *.tch
+*Example
