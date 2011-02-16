@@ -42,13 +42,15 @@ class HashDatabase
 
     ~this()
     {
-        if (!tchdbclose(hdb))
+        try
         {
-            int ecode = tchdbecode(hdb);
-            throw new PlatformException(getError(ecode));
+            close();
         }
-        tchdbdel(hdb);
-        hdb = null;
+        finally
+        {
+            tchdbdel(hdb);
+            hdb = null;
+        }
     }
 
     /**
@@ -146,7 +148,19 @@ class HashDatabase
     final size_t size()
     {
         return tchdbrnum(hdb);
-      }
+    }
+
+    /**
+      * Close the database.
+      */
+    private final void close()
+    {
+        if (!tchdbclose(hdb))
+        {
+            int ecode = tchdbecode(hdb);
+            throw new PlatformException(getError(ecode));
+        }
+    }
 
     /**
       * Read an error message description from specified
