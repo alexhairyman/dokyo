@@ -46,6 +46,7 @@ void main()
 
     // remove()
     db.remove("bar");
+    assert(db["bar"] == null);
     assert(db.get("bar") == null);
     assert(db.size() == 1);
     Stdout.formatln("db[\"{}\"] is {}", "bar", "null");
