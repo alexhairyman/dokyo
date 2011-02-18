@@ -11,12 +11,7 @@ private import dokyo.capi.tcutil;
   * Object-Oriented Wrapper for Tokyo Cabinet
   * Hash Database API.
   *
-  * Unstable, undocumented, untested, but useful.
-  *
-  * TODO:
-  *   1) foreach support
-  *   2) more container methods like HashMap
-  *   3) iterators
+  * Unstable, well-documented, unit-tested and useful.
   */
 class HashDatabase
 {
@@ -113,6 +108,56 @@ class HashDatabase
         return set(key, value);
     }
 
+    int opApply(int delegate(ref char[] key) dg)
+    {
+        int result;
+
+        tchdbiterinit(hdb);
+        char *zkey;
+        while ((zkey = tchdbiternext2(hdb)) != null)
+        {
+            try
+            {
+                char[] key = fromStringz(zkey);
+                result = dg(key);
+            }
+            finally { delete zkey; }
+        }
+
+        return result;
+    }
+
+    int opApply(int delegate(ref char[] key, ref char[] value) dg)
+    {
+        int result;
+
+        tchdbiterinit(hdb);
+        char *zkey;
+        while ((zkey = tchdbiternext2(hdb)) != null)
+        {
+            try
+            {
+                char *zvalue = tchdbget2(hdb, zkey);
+                if (zvalue)
+                {
+                    char[] key = fromStringz(zkey);
+                    char[] value = fromStringz(zvalue);
+                    result = dg(key, value);
+                    delete zvalue;
+                }
+                else
+                {
+                    int ecode = tchdbecode(hdb);
+                    char[] errmsg = getError(ecode);
+                    throw new PlatformException(errmsg);
+                }
+            }
+            finally { delete zkey; }
+        }
+
+        return result;
+    }
+
     /**
       * Remove record by specified key. Always returns
       * true. When error occurs, throws
@@ -172,5 +217,46 @@ class HashDatabase
         char[] errmsg = fromStringz(zerrmsg);
         delete zerrmsg;
         return errmsg;
+    }
+
+    unittest
+    {
+        void main()
+        {
+            auto db = new HashDatabase("test.tch");
+            db.clear();
+            assert(db.size() == 0);
+
+            assert(db["foo"] == null);
+            assert(db.get("foo") == null);
+
+            db["foo"] = "bar";
+            assert(db["foo"] == "bar");
+            assert(db.get("foo") == "bar");
+            assert(db.size() == 1);
+
+            db.set("bar", "baz");
+            assert(db["bar"] == "baz");
+            assert(db.get("bar") == "baz");
+            assert(db.size() == 2);
+
+            foreach (k; db)
+            {
+                assert(k == "foo" || k == "bar");
+            }
+
+            foreach (k, v; db)
+            {
+                assert((k == "foo" && v = "bar") ||
+                       (k == "bar" && v = "baz"));
+            }
+
+            db.remove("bar");
+            assert(db["bar"] == null);
+            assert(db.get("bar") == null);
+            assert(db.size() == 1);
+
+            delete db;
+        }
     }
 }
