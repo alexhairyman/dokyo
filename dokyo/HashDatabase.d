@@ -110,8 +110,6 @@ class HashDatabase
 
     int opApply(int delegate(ref char[] key) dg)
     {
-        int result;
-
         tchdbiterinit(hdb);
         char *zkey;
         while ((zkey = tchdbiternext2(hdb)) != null)
@@ -119,18 +117,22 @@ class HashDatabase
             try
             {
                 char[] key = fromStringz(zkey);
-                result = dg(key);
+
+                int result = dg(key);
+                if (result != 0)
+                {
+                    delete zkey;
+                    return result;
+                }
             }
             finally { delete zkey; }
         }
 
-        return result;
+        return 0;
     }
 
     int opApply(int delegate(ref char[] key, ref char[] value) dg)
     {
-        int result;
-
         tchdbiterinit(hdb);
         char *zkey;
         while ((zkey = tchdbiternext2(hdb)) != null)
@@ -142,8 +144,14 @@ class HashDatabase
                 {
                     char[] key = fromStringz(zkey);
                     char[] value = fromStringz(zvalue);
-                    result = dg(key, value);
                     delete zvalue;
+
+                    int result = dg(key, value);
+                    if (result != 0)
+                    {
+                        delete zkey;
+                        return result;
+                    }
                 }
                 else
                 {
@@ -155,7 +163,7 @@ class HashDatabase
             finally { delete zkey; }
         }
 
-        return result;
+        return 0;
     }
 
     /**
@@ -247,8 +255,8 @@ class HashDatabase
 
             foreach (k, v; db)
             {
-                assert((k == "foo" && v = "bar") ||
-                       (k == "bar" && v = "baz"));
+                assert((k == "foo" && v == "bar") ||
+                       (k == "bar" && v == "baz"));
             }
 
             db.remove("bar");
