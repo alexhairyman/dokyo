@@ -73,8 +73,8 @@ class HashDatabase
             }
         }
 
-        char[] value = fromStringz(zvalue);
-        delete zvalue;
+        char[] value = fromStringz(zvalue).dup;
+        tcfree(zvalue);
         return value;
     }
 
@@ -116,16 +116,18 @@ class HashDatabase
         {
             try
             {
-                char[] key = fromStringz(zkey);
+                char[] key = fromStringz(zkey).dup;
 
                 int result = dg(key);
                 if (result != 0)
                 {
-                    delete zkey;
+                    tcfree(zkey);
                     return result;
                 }
+
+                delete key;
             }
-            finally { delete zkey; }
+            finally { tcfree(zkey); }
         }
 
         return 0;
@@ -142,14 +144,14 @@ class HashDatabase
                 char *zvalue = tchdbget2(hdb, zkey);
                 if (zvalue)
                 {
-                    char[] key = fromStringz(zkey);
-                    char[] value = fromStringz(zvalue);
-                    delete zvalue;
+                    char[] key = fromStringz(zkey).dup;
+                    char[] value = fromStringz(zvalue).dup;
+                    tcfree(zvalue);
 
                     int result = dg(key, value);
                     if (result != 0)
                     {
-                        delete zkey;
+                        tcfree(zkey);
                         return result;
                     }
                 }
@@ -160,7 +162,7 @@ class HashDatabase
                     throw new PlatformException(errmsg);
                 }
             }
-            finally { delete zkey; }
+            finally { tcfree(zkey); }
         }
 
         return 0;
