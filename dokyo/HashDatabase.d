@@ -122,10 +122,9 @@ class HashDatabase
                 if (result != 0)
                 {
                     tcfree(zkey);
+                    zkey = null;
                     return result;
                 }
-
-                delete key;
             }
             finally { tcfree(zkey); }
         }
@@ -147,11 +146,13 @@ class HashDatabase
                     char[] key = fromStringz(zkey).dup;
                     char[] value = fromStringz(zvalue).dup;
                     tcfree(zvalue);
+                    zvalue = null;
 
                     int result = dg(key, value);
                     if (result != 0)
                     {
                         tcfree(zkey);
+                        zkey = null;
                         return result;
                     }
                 }
