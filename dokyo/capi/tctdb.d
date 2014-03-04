@@ -1,5 +1,6 @@
 /* Converted to D from tctdb.h by htod */
-module tctdb;
+//module tctdb;
+module dokyo.capi.tctdb;
 /*************************************************************************************************
  * The table database API of Tokyo Cabinet
  *                                                               Copyright (C) 2006-2010 FAL Labs
@@ -30,11 +31,14 @@ module tctdb;
 
 
 //C     #include <tcutil.h>
-import std.c.tcutil;
+//import std.c.tcutil;
+import dokyo.capi.tcutil;
 //C     #include <tchdb.h>
-import std.c.tchdb;
+//import std.c.tchdb;
+import dokyo.capi.tchdb;
 //C     #include <tcbdb.h>
-import std.c.tcbdb;
+//import std.c.tcbdb;
+import dokyo.capi.tcbdb;
 
 
 

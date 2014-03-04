@@ -1,0 +1,7 @@
+{
+  "name": "dokyophobos",
+  "targetType" : "library",
+  "sourcePaths" : ["dokyo"],
+  "importPaths" : ["dokyo"]
+    
+}

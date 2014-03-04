@@ -1,3 +1,5 @@
 *.o
 *.tch
-*Example
+*example
+*.db
+capi_

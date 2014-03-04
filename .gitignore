@@ -21,6 +21,8 @@ nbproject
 
 ## OBJECT FILES
 *.o
+*.a
+*.userprefs
 
 ## PROJECT::GENERAL
 

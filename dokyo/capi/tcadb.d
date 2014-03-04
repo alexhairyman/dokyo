@@ -30,15 +30,24 @@ module tcadb;
 
 
 //C     #include <tcutil.h>
-import std.c.tcutil;
+//import std.c.tcutil;
+import dokyo.capi.tcutil;
+
 //C     #include <tchdb.h>
-import std.c.tchdb;
+//import std.c.tchdb;
+import dokyo.capi.tchdb;
+
 //C     #include <tcbdb.h>
-import std.c.tcbdb;
+//import std.c.tcbdb;
+import dokyo.capi.tcbdb;
+
 //C     #include <tcfdb.h>
-import std.c.tcfdb;
+//import std.c.tcfdb;
+import dokyo.capi.tcfdb;
+
 //C     #include <tctdb.h>
-import std.c.tctdb;
+//import std.c.tctdb;
+import dokyo.capi.tctdb;
 
 
 
@@ -529,7 +538,8 @@ struct _N48
     bool  function(void *, void *, int , void *, int )put;
     bool  function(void *, void *, int , void *, int )putkeep;
     bool  function(void *, void *, int , void *, int )putcat;
-    bool  function(void *, void *, int )out;
+//    bool  function(void *, void *, int ) out;
+    bool  function(void *, void *, int ) rem;
     void * function(void *, void *, int , int *)get;
     int  function(void *, void *, int )vsiz;
     bool  function(void *)iterinit;
@@ -549,7 +559,8 @@ struct _N48
     uint64_t  function(void *)size;
     TCLIST * function(void *, char *, TCLIST *)misc;
     bool  function(void *, void *, int , void *, int , TCPDPROC , void *)putproc;
-    bool  function(void *, TCITER , void *)foreach;
+//    bool  function(void *, TCITER , void *) foreach;
+    bool  function(void *, TCITER , void *) forall;
 }
 alias _N48 ADBSKEL;
 

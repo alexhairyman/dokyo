@@ -1,0 +1,7 @@
+{
+  "name" : "tchdb_example",
+  "targetType" : "executable",
+  "libs" : ["tcejdb"],
+  "lflags" : ["-L$HOME/usr/lib"],
+  "dependencies" : { "dokyophobos" : {"version" : "~master", "path" : "../../"} }
+}

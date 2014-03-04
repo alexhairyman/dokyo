@@ -1,5 +1,5 @@
 /* Converted to D from tcbdb.h by htod */
-module tcbdb;
+module dokyo.capi.tcbdb;
 /*************************************************************************************************
  * The B+ tree database API of Tokyo Cabinet
  *                                                               Copyright (C) 2006-2010 FAL Labs
@@ -30,9 +30,11 @@ module tcbdb;
 
 
 //C     #include <tcutil.h>
-import std.c.tcutil;
+//import std.c.tcutil;
+import dokyo.capi.tcutil;
 //C     #include <tchdb.h>
-import std.c.tchdb;
+//import std.c.tchdb;
+import dokyo.capi.tchdb;
 
 
 

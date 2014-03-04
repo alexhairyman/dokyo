@@ -1,5 +1,5 @@
 /* Converted to D from tcfdb.h by htod */
-module tcfdb;
+module dokyo.capi.tcfdb;
 /*************************************************************************************************
  * The fixed-length database API of Tokyo Cabinet
  *                                                               Copyright (C) 2006-2010 FAL Labs
@@ -30,7 +30,8 @@ module tcfdb;
 
 
 //C     #include <tcutil.h>
-import std.c.tcutil;
+//import std.c.tcutil;
+import dokyo.capi.tcutil;
 
 
 

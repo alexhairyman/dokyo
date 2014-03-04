@@ -1,16 +1,26 @@
 module dokyo.capi.tcutil;
 
+/*
+ * Modified by Alex Herrmann (alexhairyman) for D2/Phobos usage 
+ */
 /*************************************************************************************************
  * Ported to D by Dmitry A. Ustalov.
  * This file was part of Tokyo Cabinet C API.
  *************************************************************************************************/
 
-public import tango.stdc.stdio;
-public import tango.stdc.stdlib;
-public import tango.stdc.stdint;
-public import tango.stdc.time;
-public import tango.stdc.limits;
-public import tango.stdc.math;
+//public import tango.stdc.stdio;
+//public import tango.stdc.stdlib;
+//public import tango.stdc.stdint;
+//public import tango.stdc.time;
+//public import tango.stdc.limits;
+//public import tango.stdc.math;
+
+public import core.stdc.stdio;
+public import core.stdc.stdlib;
+public import core.stdc.stdint;
+public import core.stdc.time;
+public import core.stdc.limits;
+public import core.stdc.math;
 
 /*************************************************************************************************
  * The utility API of Tokyo Cabinet
@@ -43,7 +53,7 @@ extern char *tcversion;
    The argument specifies the error message.
    The initial value of this variable is `NULL'.  If the value is `NULL', the default function is
    called when a fatal error occurs.  A fatal error occurs when memory allocation is failed. */
-extern void  function(char *)tcfatalfunc;
+extern void function(char *) tcfatalfunc;
 
 
 /* Allocate a region on memory.
@@ -113,7 +123,7 @@ void  tcfree(void *ptr);
    `op' specifies the pointer to the optional opaque object.
    The return value is positive if the former is big, negative if the latter is big, 0 if both
    are equivalent. */
-alias int  function(char *aptr, int asiz, char *bptr, int bsiz, void *op)TCCMP;
+alias int function(char *aptr, int asiz, char *bptr, int bsiz, void *op) TCCMP;
 
 /* type of the pointer to a encoding or decoding function.
    `ptr' specifies the pointer to the region.
@@ -123,7 +133,7 @@ alias int  function(char *aptr, int asiz, char *bptr, int bsiz, void *op)TCCMP;
    `op' specifies the pointer to the optional opaque object.
    If successful, the return value is the pointer to the result object allocated with `malloc'
    call, else, it is `NULL'. */
-alias void * function(void *ptr, int size, int *sp, void *op)TCCODEC;
+alias void * function(void *ptr, int size, int *sp, void *op) TCCODEC;
 
 /* type of the pointer to a callback function to process record duplication.
    `vbuf' specifies the pointer to the region of the value.
